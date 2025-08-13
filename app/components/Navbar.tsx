@@ -41,7 +41,7 @@ export default function NavBar() {
             <img
               src="/wealth-elite-logo.png"
               alt="Wealth Elite Logo"
-              className="h-12 w-auto" // Increased logo size
+              className="h-12 w-auto"
             />
             <div className="relative hidden md:block">
               <input
