@@ -2,29 +2,32 @@ import { NextResponse } from "next/server";
 
 function build(range: number) {
   // tiny changes per range just to show dynamics
-  const m = (n:number)=> Math.round(n * (1 + (range-3)*0.01) * 100) / 100;
+  const m = (n: number) => Math.round(n * (1 + (range - 3) * 0.01) * 100) / 100;
 
+  // Clients data based on screenshot: 3824 (large red), 541 (medium red), 60 (orange), 2 (small green)
   const clients = [
-    { x: "Online",   y: m(3824), r: 60 },
-    { x: "New",      y: m(541),  r: 45 },
-    { x: "Active",   y: m(60),   r: 35 },
-    { x: "Inactive", y: m(2),    r: 20 },
+    { x: "Online", y: m(60), r: 50 },      // Orange circle
+    { x: "New", y: m(2), r: 25 },          // Small green circle  
+    { x: "Active", y: m(541), r: 70 },     // Medium red circle
+    { x: "Inactive", y: m(3824), r: 120 }, // Large background red circle
   ];
 
+  // SIP Business Chart - bars with declining trend line
   const sipBusiness = [
-    { month: "Mar", bar: m(2.2), line: 100 },
-    { month: "Apr", bar: m(0.8), line: 95 },
-    { month: "May", bar: m(1.4), line: 110 },
-    { month: "Jun", bar: m(1.6), line: 120 },
+    { month: "Mar", bar: m(1.5), line: 109 },
+    { month: "Apr", bar: m(1.5), line: 109 },
+    { month: "May", bar: m(1.5), line: 109 },
+    { month: "Jun", bar: m(1.5), line: 109 },
   ];
 
+  // Monthly MIS - three curved lines with different patterns
   const monthlyMis = [
-    { month: "Jan", A: 0.1,  B: 0.3,  C: -0.05 },
-    { month: "Feb", A: 0.2,  B: 0.35, C: 0.0   },
-    { month: "Mar", A: 0.05, B: 0.25, C: 0.1  },
-    { month: "Apr", A: 0.3,  B: 0.15, C: 0.2  },
-    { month: "May", A: 0.25, B: 0.22, C: 0.15 },
-    { month: "Jun", A: 0.4,  B: 0.28, C: 0.18 },
+    { month: "May", A: 0.35, B: -0.05, C: 0.25 },
+    { month: "June", A: 0.32, B: -0.15, C: 0.20 },
+    { month: "July", A: 0.28, B: -0.08, C: 0.25 },
+    { month: "Aug", A: 0.22, B: 0.15, C: 0.40 },
+    { month: "May", A: 0.18, B: 0.35, C: 0.45 },
+    { month: "Jun", A: 0.12, B: 0.25, C: 0.30 },
   ].map(d => ({ ...d, A: m(d.A), B: m(d.B), C: m(d.C) }));
 
   return { clients, sipBusiness, monthlyMis };

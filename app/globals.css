@@ -1,29 +1,15 @@
 @import "tailwindcss";
 
-:root {
-  --text-color: #003E17;
-}
 
-/* 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
+/* Prevent horizontal scroll */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
-} */
+}
 
 @layer base {
   body {
@@ -56,6 +42,8 @@ body {
     border-radius: 36px;
     cursor: pointer;
   }
+
+  /* Container fix */
   .container {
     width: 100%;
     margin-left: auto;

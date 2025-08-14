@@ -38,8 +38,6 @@ export default function Page() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <TimeFilter onChange={(d) => setRange(d)} />
         <div className="flex gap-6 text-sm text-green-600">
-          <span>View Trend</span>
-          <span>View Trend</span>
         </div>
       </div>
 
