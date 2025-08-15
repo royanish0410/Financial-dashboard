@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-// Define type for a single client
 interface Client {
   x: string; // e.g., "Online", "New"
   y: number;
@@ -30,12 +29,6 @@ export default function ClientsBubble({ range }: { range: number }) {
       </div>
     );
 
-  // Map API data for easier access
-  const clientsMap: Record<string, Client> = data.reduce((acc, item) => {
-    acc[item.x] = item;
-    return acc;
-  }, {} as Record<string, Client>);
-
   return (
     <div className="bg-white p-3 rounded shadow border border-gray-200 h-full">
       <div className="flex flex-wrap justify-between items-center mb-4 pb-4 border-b border-gray-200 gap-2">
@@ -44,11 +37,11 @@ export default function ClientsBubble({ range }: { range: number }) {
           <span>📥</span> Download Report
         </button>
       </div>
-      
+
       <div className="h-80 flex items-center justify-center relative w-full">
         <div className="relative w-full max-w-md h-64">
           {/* Inactive - Bright Red */}
-          <div 
+          <div
             className="absolute rounded-full flex items-center justify-center text-white font-bold shadow-lg"
             style={{
               width: '200px',
@@ -63,9 +56,9 @@ export default function ClientsBubble({ range }: { range: number }) {
           >
             541
           </div>
-          
+
           {/* Online - Orange */}
-          <div 
+          <div
             className="absolute rounded-full flex items-center justify-center text-white font-bold shadow-md"
             style={{
               width: '100px',
@@ -80,9 +73,9 @@ export default function ClientsBubble({ range }: { range: number }) {
           >
             60
           </div>
-          
+
           {/* Active - Dark red-brown */}
-          <div 
+          <div
             className="absolute rounded-full flex items-center justify-center text-white font-bold shadow-md"
             style={{
               width: '130px',
@@ -97,15 +90,15 @@ export default function ClientsBubble({ range }: { range: number }) {
           >
             3824
           </div>
-          
+
           {/* New - Green */}
-          <div 
+          <div
             className="absolute rounded-full flex items-center justify-center text-white font-bold shadow-sm"
             style={{
               width: '90px',
               height: '90px',
               backgroundColor: '#339933',
-              top: '170px', 
+              top: '170px',
               left: '70%',
               transform: 'translateX(-50%)',
               zIndex: 2,

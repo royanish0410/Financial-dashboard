@@ -13,6 +13,20 @@ import {
   ReferenceLine
 } from "recharts";
 
+// Define proper types for clients and monthlyMis
+type Client = {
+  id: string;
+  name: string;
+  value: number;
+  // Add other fields as per your API response
+};
+
+type MonthlyMis = {
+  month: string;
+  value: number;
+  // Add other fields as per your API response
+};
+
 type SipBusinessData = {
   month: string;
   bar: number;
@@ -20,9 +34,9 @@ type SipBusinessData = {
 };
 
 type ChartData = {
-  clients: any[];
+  clients: Client[];
   sipBusiness: SipBusinessData[];
-  monthlyMis: any[];
+  monthlyMis: MonthlyMis[];
 };
 
 export default function SipBusinessChart({ range }: { range: number }) {
@@ -55,14 +69,12 @@ export default function SipBusinessChart({ range }: { range: number }) {
   if (loading)
     return (
       <div className="flex items-center justify-center h-64">
-        {/* Simple spinner */}
         <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
 
   return (
     <div className="bg-white p-3 sm:p-4 rounded shadow border border-gray-200 h-full">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 pb-4 border-b border-gray-200 gap-3">
         <h2 className="text-base sm:text-lg font-semibold text-gray-800 tracking-wide uppercase text-center sm:text-left">
           SIP BUSINESS CHART
@@ -72,7 +84,6 @@ export default function SipBusinessChart({ range }: { range: number }) {
         </button>
       </div>
 
-      {/* Chart */}
       <div className="h-[250px] sm:h-[350px] md:h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
@@ -149,7 +160,6 @@ export default function SipBusinessChart({ range }: { range: number }) {
               dot={{ r: 4 }}
               isAnimationActive={false}
             />
-            {/* Reference Lines */}
             <ReferenceLine y={2.4} stroke="#e5e7eb" yAxisId="left" />
             <ReferenceLine y={1.6} stroke="#e5e7eb" yAxisId="left" />
             <ReferenceLine y={0.8} stroke="#e5e7eb" yAxisId="left" />

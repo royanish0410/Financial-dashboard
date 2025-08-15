@@ -87,7 +87,7 @@ export default function TimeFilterStatCard({ range, onRangeChange, stats, loadin
                   className={[
                     "px-4 py-2 font-medium focus:outline-none transition-colors whitespace-nowrap",
                     active ? "bg-red-600 text-white" : "bg-white text-gray-700 hover:bg-red-50",
-                    i !== ranges.length - 1 ? "border-r border-red-300" : ""
+                    i !== ranges.length - 1 ? "border-r border-red-300" : "",
                   ].join(" ")}
                 >
                   {r} Days
@@ -106,26 +106,24 @@ export default function TimeFilterStatCard({ range, onRangeChange, stats, loadin
       ) : (
         /* Stats row - Improved layout with icons on the left */
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {items.map(({ label, value, Icon, report }, idx) => (
+          {items.map(({ label, value, Icon, report }) => (
             <div
               key={label}
               className={[
-                "relative flex flex-row items-center gap-3 py-4 px-2 sm:px-3 bg-gray-50 rounded-lg",
-                "border border-gray-100 shadow-sm"
+                "relative flex flex-row items-center gap-3 py-4 px-3 sm:px-4 bg-gray-50 rounded-lg border border-gray-100 shadow-sm",
+                "hover:shadow-md transition-shadow",
               ].join(" ")}
             >
               {/* View Report floating button */}
               {report && (
-                <button className="absolute top-2 right-2 rounded-md border border-red-600 bg-red-50 px-2 py-0.5 text-[10px] sm:text-xs font-semibold text-red-600 hover:bg-red-100 shadow-sm">
+                <button className="absolute top-2 right-2 rounded-md border border-red-600 bg-red-50 px-2 py-0.5 text-[10px] sm:text-xs font-semibold text-red-600 hover:bg-red-100 shadow-sm transition-colors">
                   View Report
                 </button>
               )}
-
               {/* Icon on the left side */}
               <div className="flex-shrink-0">
                 <Icon className="w-12 h-12 sm:w-14 sm:h-14" />
               </div>
-
               {/* Text content on the right side */}
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col">
