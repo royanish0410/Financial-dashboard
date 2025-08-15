@@ -89,7 +89,7 @@ export default function ClientsBubble({ range }: { range: number }) {
               height: '130px',
               backgroundColor: '#C6373C',
               top: '100px',
-              left: '30%',
+              left: '31%',
               transform: 'translateX(-50%)',
               zIndex: 1,
               fontSize: '28px'
@@ -105,7 +105,7 @@ export default function ClientsBubble({ range }: { range: number }) {
               width: '90px',
               height: '90px',
               backgroundColor: '#339933',
-              top: '170px',
+              top: '170px', 
               left: '70%',
               transform: 'translateX(-50%)',
               zIndex: 2,

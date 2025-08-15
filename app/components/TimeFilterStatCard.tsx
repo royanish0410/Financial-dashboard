@@ -11,7 +11,7 @@ interface Props {
     sipRejections: string;
     newSip: string;
   };
-  loading?: boolean; // <-- optional loading flag
+  loading?: boolean;
 }
 
 /* --- Icons (unchanged) --- */
@@ -64,7 +64,6 @@ const IconLineMini = ({ className = "w-14 h-14 md:w-16 md:h-16" }) => (
 
 export default function TimeFilterStatCard({ range, onRangeChange, stats, loading = false }: Props) {
   const ranges = [3, 7, 10, 30];
-
   const items = [
     { label: "Purchases", value: stats.purchases, Icon: IconHandDoc, report: false },
     { label: "Redemptions", value: stats.redemptions, Icon: IconBoxSpark, report: false },
@@ -74,26 +73,28 @@ export default function TimeFilterStatCard({ range, onRangeChange, stats, loadin
   ];
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 px-4 md:px-6 py-4">
-      {/* Time filter */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        <div className="inline-flex flex-wrap items-center rounded-md border border-red-300 overflow-hidden text-sm md:text-base">
-          {ranges.map((r, i) => {
-            const active = r === range;
-            return (
-              <button
-                key={r}
-                onClick={() => onRangeChange(r)}
-                className={[
-                  "px-3 md:px-4 py-1.5 md:py-2 font-medium focus:outline-none transition-colors",
-                  active ? "bg-red-600 text-white" : "bg-white text-gray-700 hover:bg-red-50",
-                  i !== ranges.length - 1 ? "border-r border-red-300" : ""
-                ].join(" ")}
-              >
-                {r} Days
-              </button>
-            );
-          })}
+    <div className="bg-white rounded-lg border border-gray-200 px-3 py-4 sm:px-4 md:px-6">
+      {/* Time filter - Improved for mobile */}
+      <div className="mb-5">
+        <div className="flex overflow-x-auto pb-2 hide-scrollbar">
+          <div className="inline-flex rounded-md border border-red-300 overflow-hidden text-sm md:text-base">
+            {ranges.map((r, i) => {
+              const active = r === range;
+              return (
+                <button
+                  key={r}
+                  onClick={() => onRangeChange(r)}
+                  className={[
+                    "px-4 py-2 font-medium focus:outline-none transition-colors whitespace-nowrap",
+                    active ? "bg-red-600 text-white" : "bg-white text-gray-700 hover:bg-red-50",
+                    i !== ranges.length - 1 ? "border-r border-red-300" : ""
+                  ].join(" ")}
+                >
+                  {r} Days
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -103,34 +104,42 @@ export default function TimeFilterStatCard({ range, onRangeChange, stats, loadin
           <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-        /* Stats row */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+        /* Stats row - Improved layout with icons on the left */
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {items.map(({ label, value, Icon, report }, idx) => (
             <div
               key={label}
               className={[
-                "relative flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 py-4 px-3",
-                idx !== items.length - 1 ? "lg:border-r lg:border-gray-200" : ""
+                "relative flex flex-row items-center gap-3 py-4 px-2 sm:px-3 bg-gray-50 rounded-lg",
+                "border border-gray-100 shadow-sm"
               ].join(" ")}
             >
-              {/* View Report floating */}
+              {/* View Report floating button */}
               {report && (
-                <button className="absolute -top-3 right-3 sm:-top-6 sm:right-4 rounded-md border border-red-600 bg-red-50 px-2 py-0.5 text-[10px] sm:text-xs font-semibold text-red-600 hover:bg-red-100 shadow-sm">
+                <button className="absolute top-2 right-2 rounded-md border border-red-600 bg-red-50 px-2 py-0.5 text-[10px] sm:text-xs font-semibold text-red-600 hover:bg-red-100 shadow-sm">
                   View Report
                 </button>
               )}
 
-              {/* Icon */}
-              <Icon className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 mx-auto sm:mx-0" />
+              {/* Icon on the left side */}
+              <div className="flex-shrink-0">
+                <Icon className="w-12 h-12 sm:w-14 sm:h-14" />
+              </div>
 
-              {/* Text block */}
-              <div className="flex-1 text-center sm:text-left">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                  <span className="text-xl sm:text-2xl font-bold text-gray-900 leading-none">{value || "0"}</span>
-                  <span className="text-sm sm:text-base font-medium text-gray-700">{label}</span>
+              {/* Text content on the right side */}
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900 truncate">{value || "0"}</span>
+                  </div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <span className="text-sm sm:text-base font-medium text-gray-700 truncate">{label}</span>
+                  </div>
+                  <div className="h-[2px] w-full bg-gray-200 my-2" />
+                  <div className="text-sm sm:text-base text-gray-800 font-medium truncate">
+                    {value || "0.00"} INR
+                  </div>
                 </div>
-                <div className="h-[2px] w-20 sm:w-28 bg-gray-200 my-2 mx-auto sm:mx-0" />
-                <div className="text-sm sm:text-base text-gray-800">{value || "0.00"} INR</div>
               </div>
             </div>
           ))}

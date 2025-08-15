@@ -67,7 +67,7 @@ export default function SipBusinessChart({ range }: { range: number }) {
         <h2 className="text-base sm:text-lg font-semibold text-gray-800 tracking-wide uppercase text-center sm:text-left">
           SIP BUSINESS CHART
         </h2>
-        <button className="rounded-md border border-red-700 bg-red-50 px-3 py-1 text-xs sm:text-sm text-red-700 font-medium hover:bg-red-100 transition-colors">
+        <button className="rounded-md border border-red-700 bg-red-50 px-3 py-1 text-xs text-red-700 font-medium hover:bg-red-100 transition-colors">
           View Report
         </button>
       </div>
