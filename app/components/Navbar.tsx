@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import {
   FunnelIcon,
   LightBulbIcon,
@@ -86,9 +87,11 @@ export default function NavBar() {
         <div className="w-full flex items-center justify-between px-6 lg:px-8 py-4">
           {/* Left: Logo */}
           <div className="flex items-center flex-shrink-0">
-            <img
+            <Image
               src="/wealth-elite-logo.png"
               alt="Wealth Elite Logo"
+              width={160} 
+              height={56}  
               className="h-14 w-auto"
             />
           </div>

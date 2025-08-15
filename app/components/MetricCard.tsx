@@ -16,7 +16,7 @@ export default function MetricCard({
       {/* Top: Current + View Report */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex-1 flex justify-center">
-          <span className="ml-25 text-xs font-bold text-gray-500 uppercase tracking-wide ">
+          <span className="ml-25 text-xs font-bold text-gray-500 uppercase tracking-wide">
             Current
           </span>
         </div>
@@ -28,19 +28,13 @@ export default function MetricCard({
       {/* Middle: Title + Value */}
       <div className="flex-1 flex flex-col justify-center items-center text-center">
         <div className="mb-2">
-          <span className="text-2xl font-bold text-gray-900 mr-2">
-            {title}
-          </span>
-          <span className="text-3xl font-bold text-gray-900">
-            {value}
-          </span>
+          <span className="text-2xl font-bold text-gray-900 mr-2">{title}</span>
+          <span className="text-3xl font-bold text-gray-900">{value}</span>
           {unit && (
-            <span className="text-lg text-gray-400 font-normal ml-1">
-              {unit}
-            </span>
+            <span className="text-lg text-gray-400 font-normal ml-1">{unit}</span>
           )}
         </div>
-        
+
         {/* MoM indicator */}
         <div className="flex items-center justify-center">
           <span
@@ -48,9 +42,7 @@ export default function MetricCard({
               up ? "text-green-600" : "text-red-500"
             }`}
           >
-            <span className="mr-1">
-              {up ? "▲" : "▼"}
-          </span>
+            <span className="mr-1">{up ? "▲" : "▼"}</span>
             {up ? `+${Math.abs(mom)}` : Math.abs(mom)}% MoM
           </span>
         </div>
@@ -62,31 +54,6 @@ export default function MetricCard({
           View Trend
           <span className="ml-1 text-xs">▼</span>
         </button>
-      </div>
-    </div>
-  );
-}
-
-// Demo component to show both cards
-function Demo() {
-  return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Metrics</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <MetricCard 
-            title="AUM" 
-            value="12.19" 
-            mom={0.71} 
-            unit="Cr" 
-          />
-          <MetricCard 
-            title="SIP" 
-            value="1.39" 
-            mom={0} 
-            unit="Lakh" 
-          />
-        </div>
       </div>
     </div>
   );

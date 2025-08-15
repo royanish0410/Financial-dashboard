@@ -63,7 +63,7 @@ export default function MonthlyMisChart({ range }: { range: number }) {
 
       {/* Chart */}
       <div className="flex-grow w-full min-h-[350px] md:min-h-[400px] lg:min-h-[450px]">
-      <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
             margin={{ top: 20, right: 10, bottom: 30, left: 7 }}
@@ -106,17 +106,38 @@ export default function MonthlyMisChart({ range }: { range: number }) {
                 fontSize: "14px",
                 boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)",
               }}
-              formatter={(value: any, name: string) => [
-                typeof value === "number" ? `${value.toFixed(3)} Cr` : value,
-                name === "C" ? "Series C" : name === "B" ? "Series B" : "Series A",
-              ]}
+              formatter={(value: number) => `${value.toFixed(3)} Cr`} // just format the value
+              labelFormatter={(name: string) =>
+                name === "C" ? "Series C" : name === "B" ? "Series B" : "Series A"
+              }
             />
-            <Area type="natural" dataKey="A" stroke="#ef4444" fill="url(#colorA)" strokeWidth={3} activeDot={{ r: 6 }} />
-            <Area type="natural" dataKey="C" stroke="#10b981" fill="url(#colorC)" strokeWidth={3} activeDot={{ r: 6 }} />
-            <Area type="natural" dataKey="B" stroke="#3b82f6" fill="url(#colorB)" strokeWidth={3} activeDot={{ r: 6 }} />
+
+            <Area
+              type="natural"
+              dataKey="A"
+              stroke="#ef4444"
+              fill="url(#colorA)"
+              strokeWidth={3}
+              activeDot={{ r: 6 }}
+            />
+            <Area
+              type="natural"
+              dataKey="C"
+              stroke="#10b981"
+              fill="url(#colorC)"
+              strokeWidth={3}
+              activeDot={{ r: 6 }}
+            />
+            <Area
+              type="natural"
+              dataKey="B"
+              stroke="#3b82f6"
+              fill="url(#colorB)"
+              strokeWidth={3}
+              activeDot={{ r: 6 }}
+            />
           </AreaChart>
         </ResponsiveContainer>
-
       </div>
     </div>
   );

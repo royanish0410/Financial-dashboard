@@ -2,16 +2,25 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+// Define type for a single client
+interface Client {
+  x: string; // e.g., "Online", "New"
+  y: number;
+}
+
 export default function ClientsBubble({ range }: { range: number }) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`/api/charts?range=${range}`).then((r) => {
-      setData(r.data.clients);
-      setLoading(false);
-    });
+    axios
+      .get<{ clients: Client[] }>(`/api/charts?range=${range}`)
+      .then((r) => {
+        setData(r.data.clients);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [range]);
 
   if (loading)
@@ -22,15 +31,10 @@ export default function ClientsBubble({ range }: { range: number }) {
     );
 
   // Map API data for easier access
-  const clientsMap = data.reduce((acc: any, item: any) => {
+  const clientsMap: Record<string, Client> = data.reduce((acc, item) => {
     acc[item.x] = item;
     return acc;
-  }, {} as any);
-
-  const onlineData = clientsMap["Online"] || { y: 0 };
-  const newData = clientsMap["New"] || { y: 0 };
-  const activeData = clientsMap["Active"] || { y: 0 };
-  const inactiveData = clientsMap["Inactive"] || { y: 0 };
+  }, {} as Record<string, Client>);
 
   return (
     <div className="bg-white p-3 rounded shadow border border-gray-200 h-full">
