@@ -19,22 +19,37 @@ type SipBusinessData = {
   line: number;
 };
 
+type ChartData = {
+  clients: any[];
+  sipBusiness: SipBusinessData[];
+  monthlyMis: any[];
+};
+
 export default function SipBusinessChart({ range }: { range: number }) {
   const [data, setData] = useState<SipBusinessData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    const sipBusiness: SipBusinessData[] = [
-      { month: "Mar", bar: 1.5, line: 117 },
-      { month: "Apr", bar: 1.5, line: 90 },
-      { month: "May", bar: 1.5, line: 90 },
-      { month: "Jun", bar: 1.5, line: 90 },
-    ];
-    setTimeout(() => {
-      setData(sipBusiness);
-      setLoading(false);
-    }, 600); // little more noticeable
+    // Fetch data from API
+    fetch(`/api/charts?range=${range}`)
+      .then((res) => res.json())
+      .then((result: ChartData) => {
+        setData(result.sipBusiness);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching chart data:", error);
+        // Fallback to mock data if API fails
+        const sipBusiness: SipBusinessData[] = [
+          { month: "Mar", bar: 1.5, line: 117 },
+          { month: "Apr", bar: 1.5, line: 90 },
+          { month: "May", bar: 1.5, line: 90 },
+          { month: "Jun", bar: 1.5, line: 90 },
+        ];
+        setData(sipBusiness);
+        setLoading(false);
+      });
   }, [range]);
 
   if (loading)
@@ -59,11 +74,11 @@ export default function SipBusinessChart({ range }: { range: number }) {
 
       {/* Chart */}
       <div className="h-[250px] sm:h-[350px] md:h-[400px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
-            margin={{ top: 20, right: 0, bottom: 20, left: 0 }} // removed horizontal margin
-            barCategoryGap="20%" // reduce gap to occupy full width
+            margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
+            barCategoryGap="20%"
           >
             <CartesianGrid
               strokeDasharray="none"
@@ -115,7 +130,7 @@ export default function SipBusinessChart({ range }: { range: number }) {
               dataKey="bar"
               fill="#3b82f6"
               radius={[4, 4, 0, 0]}
-              barSize={24} // slightly wider
+              barSize={24}
             />
             <Area
               yAxisId="right"
@@ -142,8 +157,7 @@ export default function SipBusinessChart({ range }: { range: number }) {
             <ReferenceLine y={110} stroke="#e5e7eb" yAxisId="right" />
             <ReferenceLine y={100} stroke="#e5e7eb" yAxisId="right" />
           </ComposedChart>
-      </ResponsiveContainer>
-
+        </ResponsiveContainer>
       </div>
     </div>
   );

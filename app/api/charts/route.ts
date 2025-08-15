@@ -1,23 +1,23 @@
 import { NextResponse } from "next/server";
 
 function build(range: number) {
-  // tiny changes per range just to show dynamics
+  // Tiny changes per range just to show dynamics
   const m = (n: number) => Math.round(n * (1 + (range - 3) * 0.01) * 100) / 100;
 
   // Clients data based on screenshot
   const clients = [
     { x: "Online", y: m(60), r: 50 },      // Orange circle
-    { x: "New", y: m(2), r: 25 },          // Small green circle  
+    { x: "New", y: m(2), r: 25 },          // Small green circle
     { x: "Active", y: m(541), r: 70 },     // Medium red circle
     { x: "Inactive", y: m(3824), r: 120 }, // Large background red circle
   ];
 
-  // SIP Business Chart - match screenshot (March high, rest zero)
+  // SIP Business Chart - Updated to match the curve in the screenshot
   const sipBusiness = [
     { month: "Mar", bar: m(1.5), line: 117 },
-    { month: "Apr", bar: m(1.5), line: 0 },
-    { month: "May", bar: m(1.5), line: 0 },
-    { month: "Jun", bar: m(1.5), line: 0 },
+    { month: "Apr", bar: m(1.5), line: 90 },
+    { month: "May", bar: m(1.5), line: 90 },
+    { month: "Jun", bar: m(1.5), line: 90 },
   ];
 
   // Monthly MIS
