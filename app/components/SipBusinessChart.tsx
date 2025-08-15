@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -10,65 +9,65 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
-  Area
+  Area,
+  ReferenceLine
 } from "recharts";
-interface SipBusinessData{
-  item:any;
+
+type SipBusinessData = {
+  month: string;
+  bar: number;
+  line: number;
 };
 
 export default function SipBusinessChart({ range }: { range: number }) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<SipBusinessData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`/api/charts?range=${range}`).then((r) => {
-      const transformed = r.data.sipBusiness.map((item) => {
-        let lineVal;
-        if (item.bar === 2.4) lineVal = 120;
-        else if (item.bar === 1.6) lineVal = 100;
-        else if (item.bar === 0.8) lineVal = 100;
-        else if (item.bar === 0) lineVal = 90;
-        else lineVal = 90 + (item.bar / 2.4) * (120 - 90); // interpolate
-
-        return { ...item, line: lineVal };
-      });
-
-      setData(transformed);
+    const sipBusiness: SipBusinessData[] = [
+      { month: "Mar", bar: 1.5, line: 117 },
+      { month: "Apr", bar: 1.5, line: 90 },
+      { month: "May", bar: 1.5, line: 90 },
+      { month: "Jun", bar: 1.5, line: 90 },
+    ];
+    setTimeout(() => {
+      setData(sipBusiness);
       setLoading(false);
-    });
+    }, 600); // little more noticeable
   }, [range]);
 
   if (loading)
     return (
       <div className="flex items-center justify-center h-64">
-        Loading...
+        {/* Simple spinner */}
+        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
 
   return (
-    <div className="bg-white p-4 rounded shadow border border-gray-200 h-full">
+    <div className="bg-white p-3 sm:p-4 rounded shadow border border-gray-200 h-full">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-800">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 pb-4 border-b border-gray-200 gap-3">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-800 tracking-wide uppercase text-center sm:text-left">
           SIP BUSINESS CHART
         </h2>
-        <button className="rounded-md border border-red-700 bg-red-50 px-3 py-1 text-xs text-red-700 font-medium hover:bg-red-100 transition-colors">
+        <button className="rounded-md border border-red-700 bg-red-50 px-3 py-1 text-xs sm:text-sm text-red-700 font-medium hover:bg-red-100 transition-colors">
           View Report
         </button>
       </div>
 
       {/* Chart */}
-      <div className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-[250px] sm:h-[350px] md:h-[400px] w-full">
+      <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={data}
-            margin={{ top: 10, right: 30, bottom: 10, left: 30 }}
-            barCategoryGap="35%"
+            margin={{ top: 20, right: 0, bottom: 20, left: 0 }} // removed horizontal margin
+            barCategoryGap="20%" // reduce gap to occupy full width
           >
             <CartesianGrid
               strokeDasharray="none"
-              stroke="#e5e7eb"
+              stroke="#f3f4f6"
               horizontal
               vertical={false}
             />
@@ -76,7 +75,7 @@ export default function SipBusinessChart({ range }: { range: number }) {
               dataKey="month"
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 14, fill: "#6b7280", fontWeight: "500" }}
+              tick={{ fontSize: 12, fill: "#374151", fontWeight: 600 }}
               interval={0}
             />
             <YAxis
@@ -84,17 +83,17 @@ export default function SipBusinessChart({ range }: { range: number }) {
               orientation="left"
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 11, fill: "#374151", fontWeight: 500 }}
               domain={[0, 2.4]}
               ticks={[0, 0.8, 1.6, 2.4]}
-              tickFormatter={(value) => value.toFixed(1)}
+              tickFormatter={(v) => v.toFixed(1)}
             />
             <YAxis
               yAxisId="right"
               orientation="right"
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={{ fontSize: 11, fill: "#374151", fontWeight: 500 }}
               domain={[90, 120]}
               ticks={[90, 100, 110, 120]}
             />
@@ -103,9 +102,8 @@ export default function SipBusinessChart({ range }: { range: number }) {
                 backgroundColor: "white",
                 border: "1px solid #d1d5db",
                 borderRadius: "6px",
-                fontSize: "12px",
-                boxShadow:
-                  "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+                fontSize: "13px",
+                boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)"
               }}
               formatter={(value, name) => [
                 typeof value === "number" ? value.toFixed(2) : value,
@@ -115,27 +113,37 @@ export default function SipBusinessChart({ range }: { range: number }) {
             <Bar
               yAxisId="left"
               dataKey="bar"
-              fill="#4285f4"
-              radius={[2, 2, 0, 0]}
-              barSize={30}
+              fill="#3b82f6"
+              radius={[4, 4, 0, 0]}
+              barSize={24} // slightly wider
             />
             <Area
               yAxisId="right"
               type="monotone"
               dataKey="line"
               stroke="none"
-              fill="rgba(234, 67, 53, 0.15)"
+              fill="rgba(239, 68, 68, 0.15)"
+              isAnimationActive={false}
             />
             <Line
               yAxisId="right"
               type="monotone"
               dataKey="line"
-              stroke="#ea4335"
-              strokeWidth={2}
-              dot={false}
+              stroke="#ef4444"
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              isAnimationActive={false}
             />
+            {/* Reference Lines */}
+            <ReferenceLine y={2.4} stroke="#e5e7eb" yAxisId="left" />
+            <ReferenceLine y={1.6} stroke="#e5e7eb" yAxisId="left" />
+            <ReferenceLine y={0.8} stroke="#e5e7eb" yAxisId="left" />
+            <ReferenceLine y={120} stroke="#e5e7eb" yAxisId="right" />
+            <ReferenceLine y={110} stroke="#e5e7eb" yAxisId="right" />
+            <ReferenceLine y={100} stroke="#e5e7eb" yAxisId="right" />
           </ComposedChart>
-        </ResponsiveContainer>
+      </ResponsiveContainer>
+
       </div>
     </div>
   );

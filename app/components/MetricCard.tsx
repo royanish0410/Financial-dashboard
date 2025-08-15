@@ -16,7 +16,7 @@ export default function MetricCard({
       {/* Top: Current + View Report */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex-1 flex justify-center">
-          <span className="text-xs font-extrabold text-gray-500 uppercase tracking-wide ">
+          <span className="ml-25 text-xs font-bold text-gray-500 uppercase tracking-wide ">
             Current
           </span>
         </div>
@@ -50,8 +50,8 @@ export default function MetricCard({
           >
             <span className="mr-1">
               {up ? "▲" : "▼"}
-            </span>
-            {Math.abs(mom)}% MoM
+          </span>
+            {up ? `+${Math.abs(mom)}` : Math.abs(mom)}% MoM
           </span>
         </div>
       </div>
