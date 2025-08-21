@@ -34,7 +34,8 @@ export default function Page() {
 
   // 📌 Export PDF function (with okLCH fix)
   const handleExportPdf = async () => {
-    const content = document.getElementById("dashboard-content");
+    // Try to capture a higher-level element that includes navbar
+    const content = document.body || document.documentElement;
     if (!content) return;
 
     try {
@@ -70,47 +71,49 @@ export default function Page() {
   };
 
   return (
-    <div className="p-6 space-y-4">
-      {/* PDF Export Button */}
-      <div className="flex justify-end">
-        <button
-          onClick={handleExportPdf}
-          className="px-4 py-2 bg-[#2563eb] text-white rounded-lg shadow-md hover:bg-blue-700 transition"
-        >
-          Export as PDF
-        </button>
-      </div>
-
-      {/* Dashboard Content */}
-      <div
-        id="dashboard-content"
-        className="space-y-4"
-        style={{ backgroundColor: "#ffffff", color: "#111827" }}
-      >
-        {/* AUM / SIP */}
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <MetricCard title="AUM" value={aum.value} mom={aum.mom} />
-          <MetricCard title="SIP" value={sip.value} mom={sip.mom} />
+    // Wrapper that includes navbar + content for PDF export
+    <div id="dashboard-wrapper">
+      <div className="p-6 space-y-4">
+        {/* PDF Export Button - Outside of export content */}
+        <div className="flex justify-end">
+          <button
+            onClick={handleExportPdf}
+            className="px-4 py-2 bg-[#2563eb] text-white rounded-lg shadow-md hover:bg-blue-700 transition"
+          >
+            Export as PDF
+          </button>
         </div>
 
-        {/* Time Filter + Stat Cards */}
-        <TimeFilterStatCard
-          range={range}
-          onRangeChange={(d) => setRange(d)}
-          stats={{
-            purchases: stats?.purchases ?? "0.00",
-            redemptions: stats?.redemptions ?? "0.00",
-            rejectedTx: stats?.rejectedTx ?? "0.00",
-            sipRejections: stats?.sipRejections ?? "0.00",
-            newSip: stats?.newSip ?? "0.00",
-          }}
-        />
+        {/* Dashboard Content */}
+        <div
+          className="space-y-4"
+          style={{ backgroundColor: "#ffffff", color: "#111827" }}
+        >
+          {/* AUM / SIP */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <MetricCard title="AUM" value={aum.value} mom={aum.mom} />
+            <MetricCard title="SIP" value={sip.value} mom={sip.mom} />
+          </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-          <ClientsBubble range={range} />
-          <SipBusinessChart range={range} />
-          <MonthlyMisChart range={range} />
+          {/* Time Filter + Stat Cards */}
+          <TimeFilterStatCard
+            range={range}
+            onRangeChange={(d) => setRange(d)}
+            stats={{
+              purchases: stats?.purchases ?? "0.00",
+              redemptions: stats?.redemptions ?? "0.00",
+              rejectedTx: stats?.rejectedTx ?? "0.00",
+              sipRejections: stats?.sipRejections ?? "0.00",
+              newSip: stats?.newSip ?? "0.00",
+            }}
+          />
+
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+            <ClientsBubble range={range} />
+            <SipBusinessChart range={range} />
+            <MonthlyMisChart range={range} />
+          </div>
         </div>
       </div>
     </div>
