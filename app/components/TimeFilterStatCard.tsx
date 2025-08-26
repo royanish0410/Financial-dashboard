@@ -85,7 +85,7 @@ export default function TimeFilterStatCard({ range, onRangeChange, stats, loadin
                   key={r}
                   onClick={() => onRangeChange(r)}
                   className={[
-                    "px-4 py-2 font-medium focus:outline-none transition-colors whitespace-nowrap",
+                    "px-2 py-2 font-medium focus:outline-none transition-colors whitespace-nowrap",
                     active ? "bg-red-600 text-white" : "bg-white text-gray-700 hover:bg-red-50",
                     i !== ranges.length - 1 ? "border-r border-red-300" : "",
                   ].join(" ")}
